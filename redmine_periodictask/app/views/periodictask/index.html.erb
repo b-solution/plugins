@@ -1,0 +1,52 @@
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css", "application" %>
+    <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js",
+      "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js",
+      "application" %>
+    <%= javascript_include_tag "periodic.js", :plugin => "redmine_periodictask"%>
+<% end %>
+
+<h2>Periodictask#index</h2>
+<% if @project_identifier %>
+
+<div class="contextual">
+<%= link_to('Add Periodic Task', {
+    :controller => 'periodictask', :action => 'new', :project_id => @project},
+    :class => 'icon icon-add') if @project %>
+</div>
+
+<h2>Periodic Tasks</h2>
+<p>These are the currently scheduled tasks</p>
+<table class="list">
+  <thead>
+    <tr>
+      <th><%= l(:label_subject) %></th><th><%= l(:label_next_run_date) %></th><th>&nbsp</th><th>&nbsp</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tasks.each do |a| %>
+    <tr class="<%= cycle('odd', 'even') %>">
+        <td><%= a.subject %></td>
+        <td><%= a.next_run_date %></td>
+        <td>
+            <%= link_to l(:button_edit), {
+                :controller => 'periodictask', :action => 'edit', :id => a.id, :project_id => @project},
+                :class => 'icon icon-edit',
+                :accesskey => accesskey(:edit),
+                :onclick => 'Element.show("edit-task"); return false;' %>
+        </td>
+        <td>
+            <%= link_to l(:button_delete), {
+                :controller => 'periodictask', :action => 'destroy', :id => a.id, :project_id => @project},
+                :confirm => l(:text_are_you_sure),
+                :method => :delete,
+                :class => 'icon icon-del' %>
+        </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% else %>
+  <p>No project ID supplied</p>
+<% end %>

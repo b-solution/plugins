@@ -1,0 +1,17 @@
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag "https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css", "application" %>
+    <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js",
+      "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js",
+      "application" %>
+    <%= javascript_include_tag "periodic.js", :plugin => "redmine_periodictask"%>
+<% end %>
+
+<h2>Periodictask#edit</h2>
+<p>Use this form to edit this task.</p>
+<% labelled_form_for @periodictask,
+  :url => { :controller => 'periodictask', :action => 'update', :id=>@periodictask.id, :project_id => @project },
+  :html => { :id => 'task-form' } do |f| %>
+<%= render :partial => 'periodictask/form', :locals => { :f => f } %>
+<%= submit_tag l(:button_update) %>
+<%= link_to l(:button_cancel), :controller => 'periodictask', :project_id => @project %>
+<% end if @project %>

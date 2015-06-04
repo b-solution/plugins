@@ -1,0 +1,35 @@
+= Periodictask
+
+In some projects there are tasks that need to be assigned on a schedule.
+Such as check the ssl registration once per year or run security checks every 3 months.
+
+This is the redmine plugin for you if you need such a thing.
+just install it, then make sure you add this to cron to run once per day.
+
+== Cron
+
+To add the application to your cronjobs edit your crontab with:
+
+  $: crontab -e
+
+and add the folowing line:
+
+  0 1 * * * cd /var/www/<redminedir>; rake redmine:check_periodictasks RAILS_ENV="production"
+
+== ToDo
+
+"On each project it will add a new tab named Scheduled Tasks just go there to add your task."
+* Enable selection of the module in the projects configuration (in 'Modules').
+* Make sure, there is a tracker active for the project, where we can write the issues.
+
+Goal: Plugin is only active for projects where we have a tracker and where we have choosen to use it.
+
+== Installation/Version
+
+This version is installed on Ruby-1.8.7, Rails-2.3 and Redmine-1.4.
+No warranty concerning compatibility with other versions.
+Make sure you run
+
+  rake db:migrate_plugins
+
+as specified for installing new plugins.
